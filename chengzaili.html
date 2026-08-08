@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结构承载力动态监测特效</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #b8e1f5 0%, #e6f4fa 100%);
+            overflow: hidden;
+            font-family: "Microsoft YaHei",sans-serif;
+            position: relative;
+        }
+        /* 扫描流光动画 */
+        .scan-box{
+            width: 85%;
+            height: 80%;
+            position: absolute;
+            top: 10%;
+            left: 7.5%;
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius:16px;
+        }
+        .scan-line{
+            width:100%;
+            height:4px;
+            background: linear-gradient(90deg, transparent,#40c9ff,transparent);
+            position:absolute;
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan{
+            0%{top:0px;opacity:0;}
+            20%{opacity:1;}
+            80%{opacity:1;}
+            100%{top:calc(100% - 4px);opacity:0;}
+        }
+        /* 四角科技边角 */
+        .corner{
+            position:absolute;
+            width:40px;
+            height:40px;
+            border-color:#ffffff;
+            border-style:solid;
+            border-width:3px 0 0 3px;
+        }
+        .c1{top:0;left:0;border-radius:10px 0 0 0;}
+        .c2{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 10px 0 0;}
+        .c3{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 10px;}
+        .c4{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 10px 0;}
+
+        .title{
+            position:absolute;
+            top:30px;
+            width:100%;
+            text-align:center;
+            font-size:28px;
+            color:#165e8c;
+            font-weight:bold;
+        }
+        .data-wrap{
+            position:absolute;
+            width:100%;
+            top:120px;
+            display:flex;
+            justify-content: space-evenly;
+        }
+        .data-card{
+            background:rgba(255,255,255,0.45);
+            padding:20px 30px;
+            border-radius:12px;
+            text-align:center;
+        }
+        .name{
+            font-size:16px;
+            color:#1c6b9c;
+            margin-bottom:8px;
+        }
+        .num{
+            font-size:32px;
+            color:#0f4c72;
+            font-weight:bold;
+        }
+        .unit{
+            font-size:14px;
+            color:#33779e;
+        }
+        /* 浮动微光粒子 */
+        .dot{
+            position:absolute;
+            width:6px;
+            height:6px;
+            background:#fff;
+            border-radius:50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float{
+            0%,100%{transform: translateY(0px);opacity:0.3;}
+            50%{transform: translateY(-20px);opacity:0.8;}
+        }
+    </style>
+</head>
+<body>
+    <div class="title">办公楼加装电梯改造｜结构承载力实时监测</div>
+    <div class="scan-box">
+        <div class="scan-line"></div>
+        <div class="corner c1"></div>
+        <div class="corner c2"></div>
+        <div class="corner c3"></div>
+        <div class="corner c4"></div>
+    </div>
+    <div class="data-wrap">
+        <div class="data-card">
+            <div class="name">Z‑01柱承载力利用率</div>
+            <div class="num" id="n1">42</div>
+            <div class="unit">%</div>
+        </div>
+        <div class="data-card">
+            <div class="name">主梁L‑01应力</div>
+            <div class="num" id="n2">16.5</div>
+            <div class="unit">MPa</div>
+        </div>
+        <div class="data-card">
+            <div class="name">楼板最大挠度</div>
+            <div class="num" id="n3">2.1</div>
+            <div class="unit">mm</div>
+        </div>
+        <div class="data-card">
+            <div class="name">结构安全储备</div>
+            <div class="num" id="n4">68</div>
+            <div class="unit">%</div>
+        </div>
+    </div>
+
+    <!-- 随机粒子 -->
+    <script>
+        //生成漂浮光点
+        for(let i=0;i<15;i++){
+            let d = document.createElement("div");
+            d.className="dot";
+            d.style.left = Math.random()*100 +"%";
+            d.style.top = Math.random()*100 +"%";
+            d.style.animationDelay = Math.random()*5+"s";
+            document.body.appendChild(d);
+        }
+        //数值轻微跳动模拟实时传感数据
+        setInterval(()=>{
+            document.getElementById("n1").innerText = (40 + Math.random()*6).toFixed(1);
+            document.getElementById("n2").innerText = (15 + Math.random()*3).toFixed(1);
+            document.getElementById("n3").innerText = (1.9 + Math.random()*0.5).toFixed(2);
+            document.getElementById("n4").innerText = (66 + Math.random()*4).toFixed(1);
+        },1200)
+    </script>
+</body>
+</html>
